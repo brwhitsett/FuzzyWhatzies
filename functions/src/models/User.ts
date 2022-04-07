@@ -2,10 +2,21 @@ import { ObjectId } from "mongodb";
 
 export default interface User {
   _id?: ObjectId;
-  name: string;
-  lifetimeScore: number;
-  singleGameHighScore: number;
-  lifetimeQuestionsAsked: number;
-  lifetimeQuestionsCorrect: number;
-  totalPlayTime?: number;
+  uid: string;
+  newName: string;
+  eC: number;
+  eI: number;
+  eT: number;
+  mC: number;
+  mI: number;
+  mT: number;
+  hC: number;
+  hI: number;
+  hT: number;
+  iC: number;
+  iI: number;
+  iT: number;
+  tT: number;
+  tC: number;
+  tI: number;
 }
