@@ -1,7 +1,9 @@
 import express from "express";
 import { getClient } from "../db";
+import Update from "../models/Update";
 import User from "../models/User";
-import UserUpdate from "../models/userUpdate";
+import UserUpdate from "../models/UserUpdate";
+import Body from "../models/Body";
 
 const userRouter = express.Router();
 
@@ -26,8 +28,10 @@ userRouter.get("/", async (req, res) => {
 
 userRouter.post("/:uid", async (req, res) => {
   const uid: string = req.params.uid;
+  const body: Body = req.body;
   try {
-    if (uid) {
+    const client = await getClient();
+    {
       const newUser: User = {
         uid,
         eC: 0,
@@ -45,9 +49,8 @@ userRouter.post("/:uid", async (req, res) => {
         tT: 0,
         tC: 0,
         tI: 0,
-        newName: "",
+        name: body.name,
       };
-      const client = await getClient();
       await client.db().collection<User>("user_stats").insertOne(newUser);
       res.status(201).json(newUser);
     }
@@ -60,9 +63,9 @@ userRouter.put("/:uid", async (req, res) => {
   try {
     const uid: string = req.params.uid;
     const userUpdate: UserUpdate = req.body;
-    const update: any = { $inc: {} };
+    const update: Update = { $inc: {} };
     if (userUpdate.difficulty === "easy") {
-      if (userUpdate.correct) {
+      if (userUpdate.correct === true) {
         update.$inc.eC = 1;
         update.$inc.eT = 1;
         update.$inc.tC = 1;
@@ -74,7 +77,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tT = 1;
       }
     } else if (userUpdate.difficulty === "medium") {
-      if (userUpdate.correct) {
+      if (userUpdate.correct === true) {
         update.$inc.mC = 1;
         update.$inc.mT = 1;
         update.$inc.tC = 1;
@@ -86,7 +89,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tT = 1;
       }
     } else if (userUpdate.difficulty === "hard") {
-      if (userUpdate.correct) {
+      if (userUpdate.correct === true) {
         update.$inc.hC = 1;
         update.$inc.hT = 1;
         update.$inc.tC = 1;
@@ -98,7 +101,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tT = 1;
       }
     } else if (userUpdate.difficulty === "insanus") {
-      if (userUpdate.correct) {
+      if (userUpdate.correct === true) {
         update.$inc.iC = 1;
         update.$inc.iT = 1;
         update.$inc.tC = 1;
@@ -111,7 +114,10 @@ userRouter.put("/:uid", async (req, res) => {
       }
     }
     const client = await getClient();
-    await client.db().collection<User>("user_stats").updateOne({ uid }, update);
+    await client
+      .db()
+      .collection<User>("user_stats")
+      .updateOne({ uid }, update as any);
     res.status(200).json(update);
   } catch (err) {
     errorResponse(err, res);
