@@ -23,4 +23,15 @@ sessionRouter.get("/", async (req, res) => {
   }
 });
 
+sessionRouter.post("/", async (req, res) => {
+  try {
+    const newSession: Session = req.body;
+    const client = await getClient();
+    await client.db().collection<Session>("sessions").insertOne(newSession);
+    res.status(201).json(newSession);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
 export default sessionRouter;

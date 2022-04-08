@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 export default interface User {
   _id?: ObjectId;
   uid: string;
-  newName: string;
+  name: string;
   eC: number;
   eI: number;
   eT: number;
