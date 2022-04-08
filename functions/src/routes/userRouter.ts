@@ -26,6 +26,20 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
+userRouter.get("/:uid", async (req, res) => {
+  try {
+    const uid: string = req.params.uid;
+    const client = await getClient();
+    const result = await client
+      .db()
+      .collection<User>("user_stats")
+      .findOne({ uid });
+    res.json(result);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
 userRouter.post("/:uid", async (req, res) => {
   const uid: string = req.params.uid;
   const body: Body = req.body;
