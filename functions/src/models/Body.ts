@@ -1,3 +1,3 @@
 export default interface Body {
-  name: string;
+  displayName: string;
 }

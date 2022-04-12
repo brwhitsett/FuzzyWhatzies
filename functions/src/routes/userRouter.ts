@@ -3,7 +3,6 @@ import { getClient } from "../db";
 import Update from "../models/Update";
 import User from "../models/User";
 import UserUpdate from "../models/UserUpdate";
-import Body from "../models/Body";
 
 const userRouter = express.Router();
 
@@ -42,7 +41,8 @@ userRouter.get("/:uid", async (req, res) => {
 
 userRouter.post("/:uid", async (req, res) => {
   const uid: string = req.params.uid;
-  const body: Body = req.body;
+  const displayName: string = req.body.displayName;
+
   try {
     const client = await getClient();
     {
@@ -63,7 +63,7 @@ userRouter.post("/:uid", async (req, res) => {
         tT: 0,
         tC: 0,
         tI: 0,
-        name: body.name,
+        displayName,
       };
       await client.db().collection<User>("user_stats").insertOne(newUser);
       res.status(201).json(newUser);
