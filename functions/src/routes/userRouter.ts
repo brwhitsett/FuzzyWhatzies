@@ -39,35 +39,12 @@ userRouter.get("/:uid", async (req, res) => {
   }
 });
 
-userRouter.post("/:uid", async (req, res) => {
-  const uid: string = req.params.uid;
-  const displayName: string = req.body.displayName;
-
+userRouter.post("/", async (req, res) => {
   try {
+    const newUser: User = req.body;
     const client = await getClient();
-    {
-      const newUser: User = {
-        uid,
-        eC: 0,
-        eI: 0,
-        eT: 0,
-        mC: 0,
-        mI: 0,
-        mT: 0,
-        hC: 0,
-        hI: 0,
-        hT: 0,
-        iC: 0,
-        iI: 0,
-        iT: 0,
-        tT: 0,
-        tC: 0,
-        tI: 0,
-        displayName,
-      };
-      await client.db().collection<User>("user_stats").insertOne(newUser);
-      res.status(201).json(newUser);
-    }
+    await client.db().collection<User>("user_stats").insertOne(newUser);
+    res.status(201).json(newUser);
   } catch (err) {
     errorResponse(err, res);
   }
