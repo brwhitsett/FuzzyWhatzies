@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 
 export default interface Session {
   _id?: ObjectId;
-  uid: number;
+  uid: string;
   name: string;
   difficulty: string;
   speed: number;

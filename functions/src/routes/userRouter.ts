@@ -55,7 +55,7 @@ userRouter.put("/:uid", async (req, res) => {
     const uid: string = req.params.uid;
     const userUpdate: UserUpdate = req.body;
     const update: Update = { $inc: {} };
-    if (userUpdate.difficulty === "easy") {
+    if (userUpdate.difficulty === "Easy") {
       if (userUpdate.correct === true) {
         update.$inc.eC = 1;
         update.$inc.eT = 1;
@@ -67,7 +67,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tI = 1;
         update.$inc.tT = 1;
       }
-    } else if (userUpdate.difficulty === "medium") {
+    } else if (userUpdate.difficulty === "Medium") {
       if (userUpdate.correct === true) {
         update.$inc.mC = 1;
         update.$inc.mT = 1;
@@ -79,7 +79,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tI = 1;
         update.$inc.tT = 1;
       }
-    } else if (userUpdate.difficulty === "hard") {
+    } else if (userUpdate.difficulty === "Hard") {
       if (userUpdate.correct === true) {
         update.$inc.hC = 1;
         update.$inc.hT = 1;
@@ -91,7 +91,7 @@ userRouter.put("/:uid", async (req, res) => {
         update.$inc.tI = 1;
         update.$inc.tT = 1;
       }
-    } else if (userUpdate.difficulty === "insanus") {
+    } else if (userUpdate.difficulty === "Insanus") {
       if (userUpdate.correct === true) {
         update.$inc.iC = 1;
         update.$inc.iT = 1;
